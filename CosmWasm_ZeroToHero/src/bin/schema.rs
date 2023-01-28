@@ -1,6 +1,7 @@
 use std::env::current_dir;
+use std::fs::create_dir;
 
-use cosmwasm_schema::{export_schema_with_title, schema_for};
+use cosmwasm_schema::{export_schema_with_title, remove_schemas, schema_for};
 
 use cosm_wasm_zero2_hero::config::{Ballot, Config, Poll};
 use cosm_wasm_zero2_hero::msg::{
@@ -12,6 +13,8 @@ fn main() {
     // Define the path where the schema will be saved
     let mut out_dir = current_dir().unwrap();
     out_dir.push("schema");
+    create_dir(&out_dir).unwrap();
+    remove_schemas(&out_dir).unwrap();
 
     // Export schema for messages
     export_schema_with_title(&schema_for!(ExecuteMsg), &out_dir, "ExecuteMsg");
